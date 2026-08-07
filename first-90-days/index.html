@@ -1,0 +1,224 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 fill=%22%231B4D3E%22/></svg>"></head><body><title>Grovae · What to expect when you join us</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap');
+:root{
+  --ink-1:#101213;--ink-2:#565B5C;--ink-3:#8A8F90;
+  --bg-page:#F4F5F5;--surface:#FFFFFF;--surface-sunken:#ECEEEE;--surface-ink:#101213;
+  --border-1:#DCDEDE;--green-700:#1B4D3E;--green-400:#5C9083;
+  --tint-green:rgba(27,77,62,0.06);--tint-border-green:rgba(27,77,62,0.22);
+  --accent:var(--green-700);
+  --fs:'Instrument Sans','Helvetica Neue',Arial,sans-serif;
+  --fm:'Spline Sans Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg-page);color:var(--ink-1);font-family:var(--fs);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.deck{max-width:1180px;margin:0 auto;padding:28px 18px 56px}
+.slide{background:var(--surface);border:1px solid var(--border-1);padding:52px 56px 46px;margin-bottom:22px;position:relative}
+.slide.ink{background:var(--surface-ink);color:#F4F5F5;border-color:var(--surface-ink)}
+.slide.ink .label{color:var(--green-400)}
+.slide.ink .lead{color:#B9BDBD}
+.label{font-family:var(--fm);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-3);margin-bottom:16px}
+.no{position:absolute;top:20px;right:24px;font-family:var(--fm);font-size:10px;letter-spacing:.1em;color:var(--ink-3)}
+.slide.ink .no{color:#6E7373}
+h1{font-size:56px;line-height:1.02;letter-spacing:-.045em;font-weight:600;margin:0 0 16px}
+h2{font-size:38px;line-height:1.05;letter-spacing:-.045em;font-weight:600;margin:0 0 10px}
+h3{font-size:17px;letter-spacing:-.03em;font-weight:600;margin:0 0 8px}
+.lead{font-size:15px;color:var(--ink-2);max-width:68ch;margin:0 0 26px}
+.mark{display:inline-flex;align-items:center;gap:9px}
+.mark i{width:13px;height:13px;background:var(--green-700);display:block}
+.mark b{font-weight:700;font-size:19px;letter-spacing:-.04em;font-style:normal}
+.grid{display:grid;border:1px solid var(--border-1)}
+.slide.ink .grid{border-color:#2A2E2F}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+.cell{padding:22px 24px;border-left:1px solid var(--border-1)}
+.slide.ink .cell{border-left-color:#2A2E2F}
+.g2 .cell:nth-child(2n+1),.g3 .cell:nth-child(3n+1){border-left:none}
+.g2 .cell:nth-child(n+3),.g3 .cell:nth-child(n+4){border-top:1px solid var(--border-1)}
+.cell p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.55}
+.v{font-size:26px;font-weight:600;letter-spacing:-.03em;line-height:1.05;display:block}
+.v.hero{font-size:40px;letter-spacing:-.045em;color:var(--accent)}
+.slide.ink .v.hero{color:var(--green-400)}
+.k{font-family:var(--fm);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:7px;line-height:1.5}
+.slide.ink .k{color:#8A8F90}
+ul.p{list-style:none;padding:0;margin:0}
+ul.p li{padding:11px 0;border-top:1px solid var(--border-1);font-size:14.5px;line-height:1.5}
+.slide.ink ul.p li{border-top-color:#2A2E2F}
+ul.p li:first-child{border-top:none}
+.n{font-family:var(--fm);font-size:10.5px;color:var(--ink-3);letter-spacing:.08em;margin-right:11px}
+.slide.ink .n{color:var(--green-400)}
+em{font-style:normal;color:var(--accent);font-weight:600}
+.slide.ink em{color:var(--green-400)}
+.hl{background:var(--tint-green);border:1px solid var(--tint-border-green);padding:18px 22px;margin-top:22px;font-size:14.5px}
+.hl .label{color:var(--accent);margin-bottom:6px}
+.slide.ink .hl{background:rgba(92,144,131,.12);border-color:rgba(92,144,131,.3)}
+.slide.ink .hl .label{color:var(--green-400)}
+.phase{display:grid;grid-template-columns:64px 1fr;gap:24px;align-items:start}
+.phase .num{font-family:var(--fm);font-size:40px;font-weight:500;color:var(--green-200,#A8C4BC);line-height:1;letter-spacing:-.04em}
+.slide.ink .phase .num{color:var(--green-400)}
+.strip{display:flex;gap:26px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.16);padding-top:20px;margin-top:26px}
+.strip>div{min-width:150px}
+a{color:inherit}
+@media(max-width:860px){
+ .slide{padding:30px 22px}h1{font-size:36px}h2{font-size:27px}
+ .g2,.g3{grid-template-columns:1fr}
+ .cell{border-left:none;border-top:1px solid var(--border-1)}
+ .cell:first-child{border-top:none}
+ .phase{grid-template-columns:1fr;gap:10px}
+}
+@media print{
+ body{background:#fff}.deck{padding:0;max-width:none}
+ .slide{margin:0;border:none;page-break-after:always;padding:36px 42px}
+ .slide.ink{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ @page{size:A4 landscape;margin:8mm}
+}
+@media(prefers-color-scheme:dark){:root{--bg-page:#0B0D0D;--surface:#141717;--surface-sunken:#1C2020;--border-1:#2A2E2F;--ink-1:#EDEFEF;--ink-2:#A6ABAB;--ink-3:#7B8080;--accent:#5C9083;--tint-green:rgba(92,144,131,.1);--tint-border-green:rgba(92,144,131,.28)}.mark i{background:#5C9083}}
+:root[data-theme="dark"]{--bg-page:#0B0D0D;--surface:#141717;--surface-sunken:#1C2020;--border-1:#2A2E2F;--ink-1:#EDEFEF;--ink-2:#A6ABAB;--ink-3:#7B8080;--accent:#5C9083;--tint-green:rgba(92,144,131,.1);--tint-border-green:rgba(92,144,131,.28)}
+:root[data-theme="dark"] .mark i{background:#5C9083}
+:root[data-theme="light"]{--bg-page:#F4F5F5;--surface:#FFFFFF;--surface-sunken:#ECEEEE;--border-1:#DCDEDE;--ink-1:#101213;--ink-2:#565B5C;--ink-3:#8A8F90;--accent:#1B4D3E;--tint-green:rgba(27,77,62,.06);--tint-border-green:rgba(27,77,62,.22)}
+:root[data-theme="light"] .mark i{background:#1B4D3E}
+</style>
+
+<div class="deck">
+
+<!-- COVER -->
+<section class="slide ink" style="min-height:500px;display:flex;flex-direction:column;justify-content:space-between">
+  <div class="mark"><i></i><b>Grovae</b></div>
+  <div>
+    <div class="label">Onboarding · Retention &amp; lifecycle</div>
+    <h1>What the first 90 days<br>look like.</h1>
+    <p class="lead" style="font-size:17px;max-width:54ch">Three phases, in this order. The order matters more than the speed, and we do not skip to the fun part.</p>
+  </div>
+  <div class="strip">
+    <div><span class="v hero">01</span><span class="k">Foundation · days 1 to 30</span></div>
+    <div><span class="v hero">02</span><span class="k">Acceleration · days 31 to 60</span></div>
+    <div><span class="v hero">03</span><span class="k">Optimisation · days 61 to 90</span></div>
+  </div>
+</section>
+
+<!-- PHASE 1 -->
+<section class="slide">
+  <div class="no">01</div>
+  <div class="phase">
+    <div class="num">01</div>
+    <div>
+      <div class="label">Days 1 to 30</div>
+      <h2>Foundation.</h2>
+      <p class="lead">We find where the money already is, then stop it leaking. Nothing new gets built until the account can hold what it already has.</p>
+      <div class="grid g2">
+        <div class="cell">
+          <h3>The audit, on your own data</h3>
+          <p>We pull your order export and your panel and compute your numbers: repeat rate, cohorts, the real gap between first and second order, capture funnel, flow estate, deliverability. No benchmarks, no templates.</p>
+        </div>
+        <div class="cell">
+          <h3>Turn on capture</h3>
+          <p>You are already paying for the traffic. A popup that asks the right question at the right moment turns those visits into an owned list, usually without a new discount.</p>
+        </div>
+        <div class="cell">
+          <h3>Build the recovery layer</h3>
+          <p>Browse, cart and checkout journeys on WhatsApp and email. The highest-yield flows in Indian D2C, and the most commonly half built.</p>
+        </div>
+        <div class="cell">
+          <h3>Fix delivery before adding volume</h3>
+          <p>Undelivered marketing messages are billed in full. We repair sender health and list quality first, so everything after it actually arrives.</p>
+        </div>
+      </div>
+      <div class="hl"><div class="label">The goal for month one</div>Automate the part of retention revenue that should never have depended on someone remembering to send something.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 2 -->
+<section class="slide">
+  <div class="no">02</div>
+  <div class="phase">
+    <div class="num">02</div>
+    <div>
+      <div class="label">Days 31 to 60</div>
+      <h2>Acceleration.</h2>
+      <p class="lead">Now the calendar. We plan the full retention strategy and then send against it every single week, including holidays, launches and promotions.</p>
+      <div class="grid g2">
+        <div class="cell">
+          <h3>A real calendar</h3>
+          <p>Festivals, drops, launches and sale periods mapped for the whole quarter, so nothing is written the night before.</p>
+        </div>
+        <div class="cell">
+          <h3>Every cohort gets its own send</h3>
+          <p>Prospects, first-time buyers, two-time buyers, VIPs and the lapsed pool each get their own message and their own mechanic. One blast to everyone is how lists die.</p>
+        </div>
+        <div class="cell">
+          <h3>Win-back, finally pointed at the lapsed</h3>
+          <p>On most accounts we open, the largest untouched asset is the people who already bought once. They get a dedicated programme, not a leftover.</p>
+        </div>
+        <div class="cell">
+          <h3>Copy in your voice</h3>
+          <p>Guardrails agreed with you up front, then every send written to them. You approve fast because nothing arrives that you would have to rewrite.</p>
+        </div>
+      </div>
+      <div class="hl"><div class="label">The goal for month two</div>Campaign to every segment and measure. This is how we learn what your audience actually responds to, instead of guessing.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 3 -->
+<section class="slide">
+  <div class="no">03</div>
+  <div class="phase">
+    <div class="num">03</div>
+    <div>
+      <div class="label">Days 61 to 90</div>
+      <h2>Optimisation.</h2>
+      <p class="lead">Every month from here we work to beat the month before it, on both flows and campaigns. You do not have to lift a finger for that to happen.</p>
+      <div class="grid g2">
+        <div class="cell">
+          <h3>Winners become flows</h3>
+          <p>Whatever performed as a campaign gets automated, timed to your measured rebuy window rather than a category guess.</p>
+        </div>
+        <div class="cell">
+          <h3>Activation and replenishment, product by product</h3>
+          <p>Post-purchase education specific to what they bought, then a reorder nudge timed to when that product actually runs out.</p>
+        </div>
+        <div class="cell">
+          <h3>Split tests where the money is</h3>
+          <p>We test the two flows carrying most of the revenue, not the twelve that carry none of it.</p>
+        </div>
+        <div class="cell">
+          <h3>Reporting a founder can read</h3>
+          <p>Two minutes, leading with retention's share of total store revenue. Not opens. It is the only number that sits next to your P&amp;L.</p>
+        </div>
+      </div>
+      <div class="hl"><div class="label">The goal from here on</div>Beat last month. Every month. On campaigns and on flows.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE WILL NOT DO -->
+<section class="slide ink">
+  <div class="no">04</div>
+  <div class="label">So you know what you are buying</div>
+  <h2>What we will not do.</h2>
+  <ul class="p" style="margin-top:22px">
+    <li><span class="n">01</span> We will not build twenty flows in week one because a template says to. Campaigns are how we find out what works. Automation is how we keep it.</li>
+    <li><span class="n">02</span> We will not quote your channel mix before reading your data. Two Indian brands in the same year came out at WhatsApp 77% and SMS 54%. Anyone who tells you the split up front is selling you their template.</li>
+    <li><span class="n">03</span> We will not lead a report with open rates. Opens are inflated by tracking and they do not pay anyone.</li>
+    <li><span class="n">04</span> We will not reach for a discount first. On a list everyone had written off, relevance alone returned <em>₹2.2 lakh</em> across two broadcasts at zero ad spend.</li>
+    <li><span class="n">05</span> We will not send anything you have not approved. Ever.</li>
+  </ul>
+</section>
+
+<!-- CONTACT -->
+<section class="slide ink" style="min-height:380px;display:flex;flex-direction:column;justify-content:space-between">
+  <div class="mark"><i></i><b>Grovae</b></div>
+  <div>
+    <div class="label">Where we start</div>
+    <h2 style="max-width:20ch">A free retention audit, on your own data.</h2>
+    <p class="lead">Send us the order export and the panel access. We compute your numbers, rank where the money is, and hand you a 90-day plan. Roughly two weeks, no obligation.</p>
+  </div>
+  <div class="strip">
+    <div><span class="k" style="margin:0 0 5px">Email</span><a href="mailto:shiwani@grovae.com">shiwani@grovae.com</a><br><a href="mailto:shiwani.crm@gmail.com">shiwani.crm@gmail.com</a></div>
+    <div><span class="k" style="margin:0 0 5px">Book a call</span><a href="https://calendar.app.google/Sq5cr3ZefKVxAgCM9">calendar.app.google</a></div>
+    <div><span class="k" style="margin:0 0 5px">LinkedIn</span><a href="https://www.linkedin.com/in/shiwani-agrawal-7a4baa20a">Shiwani Agrawal</a></div>
+  </div>
+</section>
+
+</div>
+</body></html>
