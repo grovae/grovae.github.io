@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Grovae · All links</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap');
+:root{
+  --ink-1:#101213;--ink-2:#565B5C;--ink-3:#8A8F90;--bg:#F6F7F7;--surface:#fff;--b1:#E4E6E6;--b2:#CDD0D0;
+  --g7:#1B4D3E;--g6:#2F6A57;--g1:#D5E2DE;--g05:#EEF4F2;--accent:#B5482F;
+  --sans:'Instrument Sans','Helvetica Neue',Arial,sans-serif;--mono:'Spline Sans Mono','IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink-1);-webkit-font-smoothing:antialiased;line-height:1.45}
+.wrap{max-width:860px;margin:0 auto;padding:44px 24px 80px}
+.mark{display:inline-flex;align-items:center;gap:8px;margin-bottom:22px}
+.mark i{width:10px;height:10px;background:var(--g7);display:block}
+.mark b{font-weight:700;font-size:15px;letter-spacing:-.04em}
+h1{font-size:30px;font-weight:700;letter-spacing:-.04em}
+.sub{font-size:13px;color:var(--ink-3);margin-top:6px}
+.search{position:sticky;top:0;z-index:5;background:var(--bg);padding:18px 0 10px}
+.search input{width:100%;font:inherit;font-size:15px;padding:13px 16px;border:1px solid var(--b1);border-radius:8px;background:var(--surface);color:var(--ink-1);outline:none}
+.search input:focus{border-color:var(--g6);box-shadow:0 0 0 3px var(--g05)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font:inherit;font-size:12px;padding:5px 10px;border:1px solid var(--b1);border-radius:999px;background:var(--surface);color:var(--ink-2);cursor:pointer}
+.chip span{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-left:4px}
+.chip.on{background:var(--g7);border-color:var(--g7);color:#fff}
+.chip.on span{color:var(--g1)}
+.chips.types .chip{font-size:11.5px;padding:4px 9px}
+h2{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:34px 0 8px;display:flex;align-items:baseline;gap:8px}
+h2 .n{font-family:var(--mono);font-weight:400;color:var(--ink-3);letter-spacing:0}
+h2 a{color:inherit;text-decoration:none}
+h2 a:hover{text-decoration:underline}
+h3{font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:16px 0 2px 12px;font-family:var(--mono)}
+.row{min-width:0;max-width:100%;display:flex;align-items:baseline;gap:16px;padding:10px 12px;border-radius:6px;text-decoration:none;color:var(--ink-1)}
+.row:hover,.row.sel{background:var(--surface);box-shadow:0 0 0 1px var(--b1)}
+.row .t{flex:1;min-width:0;font-size:14.5px;font-weight:500}
+.row .t small{display:block;font-size:11.5px;font-weight:400;color:var(--ink-3);font-family:var(--mono);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .tag{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--g6);background:var(--g05);padding:2px 6px;border-radius:4px;margin-left:6px;white-space:nowrap;vertical-align:1px}
+.row .d{font-size:12px;color:var(--ink-3);white-space:nowrap;text-align:right}
+.row .d b{font-weight:500;color:var(--ink-2)}
+.empty{padding:40px 12px;color:var(--ink-3);font-size:14px}
+mark{background:#F7E9B5;color:inherit;border-radius:2px}
+.foot{margin-top:50px;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+kbd{font-family:var(--mono);font-size:10.5px;border:1px solid var(--b2);border-bottom-width:2px;border-radius:4px;padding:0 4px;color:var(--ink-2)}
+@media(max-width:620px){.row{flex-direction:column;gap:2px}.row .t{width:100%}.row .tag{display:inline-block;margin:2px 4px 0 0}.row .d{text-align:left}h1{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="mark"><i></i><b>Grovae</b></span>
+  <h1>All links</h1>
+  <p class="sub" id="sub"></p>
+  <div class="search">
+    <input id="q" type="search" placeholder="Search by client, report, month…  ( / to focus · Enter opens top match )" autocomplete="off" autofocus>
+    <div class="chips" id="clients"></div>
+    <div class="chips types" id="types"></div>
+  </div>
+  <div id="list"></div>
+  <p class="foot" id="foot"></p>
+</div>
+<script>
+const DATA = /*__DATA__*/null;
+const enrich = it => {
+  const d = new Date(it.updated), c = new Date(it.created);
+  const mon = d.toLocaleString('en-GB',{month:'long'}), monS = d.toLocaleString('en-GB',{month:'short'});
+  return {...it, d, c, hay: [it.title,it.client,it.type,it.path,it.desc,it.repo,mon,monS,d.getFullYear(),
+    c.toLocaleString('en-GB',{month:'long'})].join(' ').toLowerCase()};
+};
+let items = DATA.items.map(enrich);
+
+/* Live top-up: anything pushed after the last rebuild is fetched straight from GitHub,
+   so the list is complete even before the scheduled rebuild runs. */
+const CFG = DATA.cfg || {}, RULES = (DATA.rules||[]).map(([n,rx]) => [n, new RegExp(rx)]);
+function classify(repo, path, title){
+  const o = (CFG.type_overrides||{})[repo+'/'+path]; if (o) return o;
+  const hay = (path+' '+title).toLowerCase();
+  if (path==='index.html' && /overview|\bhub\b|all links/.test(hay)) return 'Client hub';
+  for (const [n,rx] of RULES) if (rx.test(hay)) return n;
+  return path==='index.html' ? 'Client hub' : 'Other';
+}
+function clientName(repo){
+  if ((CFG.client_names||{})[repo]) return CFG.client_names[repo];
+  return repo.replace(/-(retention|report|reports|audit|crm|site)$/,'').split('-').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ');
+}
+async function topUp(){
+  try{
+    const owner = CFG.owner || 'grovae', site = (CFG.site||'https://grovae.com/').replace(/\/?$/,'/');
+    const r = await fetch(`https://api.github.com/users/${owner}/repos?per_page=100`); if (!r.ok) return;
+    const built = new Date(DATA.built), known = new Set(DATA.items.map(i => i.repo+'/'+i.path));
+    const added = [];
+    for (const repo of await r.json()){
+      if (!repo.has_pages || repo.archived || (CFG.exclude_repos||[]).includes(repo.name)) continue;
+      if (new Date(repo.pushed_at) <= built) continue;
+      const t = await fetch(`https://api.github.com/repos/${owner}/${repo.name}/git/trees/${repo.default_branch}?recursive=1`);
+      if (!t.ok) continue;
+      const skip = new Set(((CFG.exclude_paths||{})[repo.name])||[]);
+      for (const node of (await t.json()).tree || []){
+        const p = node.path;
+        if (node.type!=='blob' || !p.endsWith('.html') || skip.has(p) || known.has(repo.name+'/'+p)) continue;
+        if (/(^|\/)(node_modules|_site|\.github|vendor|assets|scripts)\//.test(p) || p.startsWith('_')) continue;
+        let title = p;
+        try { const src = await (await fetch(`https://raw.githubusercontent.com/${owner}/${repo.name}/${repo.default_branch}/${p}`)).text();
+              if (/<meta[^>]+name=["']grovae-links["'][^>]+content=["']hide/i.test(src)) continue;
+              const m = src.match(/<title[^>]*>([\s\S]*?)<\/title>/i); if (m) { const el=document.createElement('textarea'); el.innerHTML=m[1]; title=el.value.replace(/\s+/g,' ').trim(); } } catch(e){}
+        const clean = p.endsWith('index.html') ? p.slice(0,-10) : p;
+        added.push(enrich({client: clientName(repo.name), repo: repo.name, path: p, title, desc:'', isNew:true,
+          type: classify(repo.name, p, title), url: repo.name===CFG.user_site_repo ? site+clean : `${site}${repo.name}/${clean}`,
+          updated: repo.pushed_at, created: repo.pushed_at}));
+      }
+    }
+    if (added.length){ items = [...added, ...items].sort((a,b)=>b.d-a.d); render(); }
+  } catch(e){}
+}
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+const state = {q:'', client:'All', type:'All'};
+try { const s = JSON.parse(sessionStorage.getItem('gl-state')||'null'); if (s) Object.assign(state, s); } catch(e){}
+
+function fmt(d){
+  const now = new Date(), days = Math.floor((now - d)/864e5);
+  const abs = d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const rel = days<=0 ? 'today' : days===1 ? 'yesterday' : days<31 ? days+'d ago' : '';
+  return rel ? `<b>${rel}</b> · ${abs}` : abs;
+}
+function hl(text, terms){
+  let out = esc(text);
+  terms.forEach(t => { if (t.length>1) out = out.replace(new RegExp('('+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig'),'<mark>$1</mark>'); });
+  return out;
+}
+function row(it, terms, showClient){
+  const tag = (showClient ? `<span class="tag">${esc(it.client)}</span>` : '') + (it.isNew ? `<span class="tag" style="color:#B5482F;background:#FBECE7">new</span>` : '');
+  const typeTag = showClient ? `<span class="tag">${esc(it.type)}</span>` : '';
+  const created = (it.c.toDateString() !== it.d.toDateString()) ? ` · first published ${it.c.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}` : '';
+  return `<a class="row" href="${esc(it.url)}" target="_blank" rel="noopener">
+    <div class="t">${hl(it.title, terms)}${tag}${typeTag}<small>${esc(it.url.replace('https://',''))}${created}</small></div>
+    <div class="d">${fmt(it.d)}</div></a>`;
+}
+function chips(){
+  const base = items.filter(it => state.type==='All' || it.type===state.type);
+  const counts = {}; base.forEach(it => counts[it.client]=(counts[it.client]||0)+1);
+  const clients = Object.keys(counts).sort((a,b)=> a.localeCompare(b));
+  $('clients').innerHTML = ['All',...clients].map(c =>
+    `<button class="chip ${state.client===c?'on':''}" data-c="${esc(c)}">${esc(c)}<span>${c==='All'?base.length:counts[c]}</span></button>`).join('');
+  const base2 = items.filter(it => state.client==='All' || it.client===state.client);
+  const tc = {}; base2.forEach(it => tc[it.type]=(tc[it.type]||0)+1);
+  $('types').innerHTML = ['All',...DATA.types.filter(t=>tc[t])].map(t =>
+    `<button class="chip ${state.type===t?'on':''}" data-t="${esc(t)}">${t==='All'?'All types':esc(t)}<span>${t==='All'?base2.length:tc[t]}</span></button>`).join('');
+}
+let topHit = null;
+function render(){
+  try { sessionStorage.setItem('gl-state', JSON.stringify(state)); } catch(e){}
+  chips();
+  const terms = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+  let list = items.filter(it => (state.client==='All'||it.client===state.client) && (state.type==='All'||it.type===state.type)
+    && terms.every(t => it.hay.includes(t)));
+  let h = '';
+  if (!list.length){ $('list').innerHTML = '<p class="empty">Nothing matches. Try a client name, a month, or a word from the title.</p>'; topHit=null; return; }
+  if (terms.length){
+    list.sort((a,b) => { const s = x => terms.filter(t=>x.title.toLowerCase().includes(t)).length; return s(b)-s(a) || b.d-a.d; });
+    h += `<h2>Results <span class="n">${list.length}</span></h2>` + list.map(it=>row(it,terms,true)).join('');
+  } else {
+    if (state.client==='All' && state.type==='All'){
+      h += `<h2>Recently updated</h2>` + list.slice(0,6).map(it=>row(it,[],true)).join('');
+    }
+    const byClient = {};
+    list.forEach(it => (byClient[it.client] = byClient[it.client] || []).push(it));
+    const order = Object.keys(byClient).sort((a,b)=> byClient[b][0].d - byClient[a][0].d);
+    order.forEach(c => {
+      const its = byClient[c];
+      const hub = items.find(x => x.client===c && x.type==='Client hub');
+      const name = hub ? `<a href="${esc(hub.url)}" target="_blank" rel="noopener">${esc(c)}</a>` : esc(c);
+      h += `<h2>${name} <span class="n">${its.length}</span></h2>`;
+      DATA.types.forEach(t => {
+        const g = its.filter(x => x.type===t);
+        if (!g.length) return;
+        h += `<h3>${esc(t)} · ${g.length}</h3>` + g.map(it=>row(it,[],false)).join('');
+      });
+    });
+  }
+  $('list').innerHTML = h;
+  topHit = list[0];
+}
+$('q').value = state.q;
+$('q').addEventListener('input', e => { state.q = e.target.value; render(); });
+$('q').addEventListener('keydown', e => {
+  if (e.key==='Enter' && topHit) window.open(topHit.url, '_blank');
+  if (e.key==='Escape'){ state.q=''; e.target.value=''; render(); }
+});
+document.addEventListener('keydown', e => { if (e.key==='/' && document.activeElement!==$('q')){ e.preventDefault(); $('q').focus(); } });
+$('clients').addEventListener('click', e => { const b=e.target.closest('[data-c]'); if(!b) return; state.client=b.dataset.c; render(); });
+$('types').addEventListener('click', e => { const b=e.target.closest('[data-t]'); if(!b) return; state.type=b.dataset.t; render(); });
+const nClients = new Set(items.map(i=>i.client)).size;
+$('sub').innerHTML = `${items.length} pages across ${nClients} clients · updates itself whenever anything is published`;
+$('foot').innerHTML = `Last rebuilt ${new Date(DATA.built).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})} · <kbd>/</kbd> search · <kbd>Enter</kbd> open top match · <kbd>Esc</kbd> clear`;
+render();
+topUp();
+</script>
+</body>
+</html>

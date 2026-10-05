@@ -1,0 +1,30 @@
+{
+  "owner": "grovae",
+  "site": "https://grovae.com/",
+  "user_site_repo": "grovae.github.io",
+  "exclude_repos": [
+    "website"
+  ],
+  "exclude_paths": {
+    "grovae.github.io": [
+      "index.html",
+      "links/index.html",
+      "404.html"
+    ]
+  },
+  "client_names": {
+    "alite-retention": "Alite",
+    "arabian-aroma-report": "Arabian Aroma",
+    "boond-fragrances": "Boond Fragrances",
+    "indewild": "indē wild",
+    "nishorama-retention-audit": "Nishorama",
+    "rara-retention": "Rara",
+    "the-basics-woman": "The Basics Woman",
+    "grovae.github.io": "Grovae"
+  },
+  "type_overrides": {
+    "indewild/index.html": "Client hub",
+    "indewild/campaigns/in-flash-sale-jul16-19.html": "Plans & calendars",
+    "arabian-aroma-report/product-journey.html": "Reports & performance"
+  }
+}
