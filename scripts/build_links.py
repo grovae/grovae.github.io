@@ -9,7 +9,7 @@ import html, json, os, re, sys, time, urllib.request, urllib.error
 from datetime import datetime, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CFG = json.load(open(os.path.join(ROOT, "links", "config.json")))
+CFG = json.load(open(os.path.join(ROOT, "scripts", "links_config.json")))
 OWNER, SITE = CFG["owner"], CFG["site"].rstrip("/") + "/"
 TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
 API = "https://api.github.com"
@@ -29,6 +29,10 @@ def get(url, raw=False):
                 time.sleep(5 * (attempt + 1)); continue
             if e.code == 404:
                 return None
+            raise
+        except (TimeoutError, urllib.error.URLError, ConnectionError):
+            if attempt < 3:
+                time.sleep(3 * (attempt + 1)); continue
             raise
 
 
@@ -128,10 +132,28 @@ def main():
     data = {"built": built, "types": TYPE_ORDER, "items": items,
             "rules": [[n, rx] for n, rx in TYPES], "cfg": CFG}
     out = os.path.join(ROOT, "links")
-    json.dump(data, open(os.path.join(out, "links.json"), "w"), indent=1, ensure_ascii=False)
+    pw = os.environ.get("LINKS_PASSCODE")
+    if not pw:
+        sys.exit("LINKS_PASSCODE not set; refusing to publish the index unencrypted")
+    import base64, hashlib
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    salt = hashlib.sha256(b"grovae-links-v1").digest()[:16]  # fixed so 'remember this device' survives rebuilds
+    iters = 210000
+    key = hashlib.pbkdf2_hmac("sha256", pw.encode(), salt, iters, 32)
+    iv = os.urandom(12)
+    ct = AESGCM(key).encrypt(iv, json.dumps(data, ensure_ascii=False).encode(), None)
+    b = lambda x: base64.b64encode(x).decode()
+    enc = json.dumps({"s": b(salt), "i": b(iv), "c": b(ct), "n": iters})
     tpl = open(os.path.join(ROOT, "scripts", "links_template.html"), encoding="utf-8").read()
-    payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
-    open(os.path.join(out, "index.html"), "w", encoding="utf-8").write(tpl.replace("/*__DATA__*/null", payload))
+    pages_hash = hashlib.sha256(json.dumps(items, sort_keys=True).encode()).hexdigest()[:16]
+    html_out = tpl.replace("/*__ENC__*/null", enc) + f"\n<!-- pages:{pages_hash} -->\n"
+    open(os.path.join(out, "index.html"), "w", encoding="utf-8").write(html_out)
+    stale = os.path.join(out, "links.json")
+    if os.path.exists(stale):
+        try:
+            os.remove(stale)
+        except OSError:
+            pass
     print(f"{len(items)} pages across {len({i['repo'] for i in items})} repos")
 
 

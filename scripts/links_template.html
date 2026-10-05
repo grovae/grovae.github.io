@@ -46,15 +46,35 @@ mark{background:#F7E9B5;color:inherit;border-radius:2px}
 .foot{margin-top:50px;font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
 kbd{font-family:var(--mono);font-size:10.5px;border:1px solid var(--b2);border-bottom-width:2px;border-radius:4px;padding:0 4px;color:var(--ink-2)}
 @media(max-width:620px){.row{flex-direction:column;gap:2px}.row .t{width:100%}.row .tag{display:inline-block;margin:2px 4px 0 0}.row .d{text-align:left}h1{font-size:25px}}
+.lock{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.lockbox{width:100%;max-width:340px}
+.lockbox h1{margin-bottom:4px}
+.lockbox input[type=password]{width:100%;font:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--b1);border-radius:8px;margin-top:18px;outline:none;background:#fff}
+.lockbox input[type=password]:focus{border-color:var(--g6);box-shadow:0 0 0 3px var(--g05)}
+.rem{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-2);margin-top:10px}
+.lockbox button{margin-top:14px;width:100%;font:inherit;font-weight:600;font-size:14px;padding:11px;border:0;border-radius:8px;background:var(--g7);color:#fff;cursor:pointer}
+.err{font-size:12.5px;color:var(--accent);margin-top:10px;min-height:18px}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="lock" id="lock">
+  <form class="lockbox" id="lockform" autocomplete="off">
+    <span class="mark"><i></i><b>Grovae</b></span>
+    <h1>All links</h1>
+    <p class="sub">Private to the Grovae team. Enter the passcode.</p>
+    <input id="pw" type="password" placeholder="Passcode" autofocus>
+    <label class="rem"><input type="checkbox" id="rem" checked> Remember on this device</label>
+    <button type="submit">Unlock</button>
+    <p class="err" id="err"></p>
+  </form>
+</div>
+<div class="wrap" id="app" hidden>
   <span class="mark"><i></i><b>Grovae</b></span>
   <h1>All links</h1>
   <p class="sub" id="sub"></p>
   <div class="search">
-    <input id="q" type="search" placeholder="Search by client, report, month…  ( / to focus · Enter opens top match )" autocomplete="off" autofocus>
+    <input id="q" type="search" placeholder="Search by client, report, month…  ( / to focus · Enter opens top match )" autocomplete="off">
     <div class="chips" id="clients"></div>
     <div class="chips types" id="types"></div>
   </div>
@@ -62,7 +82,43 @@ kbd{font-family:var(--mono);font-size:10.5px;border:1px solid var(--b2);border-b
   <p class="foot" id="foot"></p>
 </div>
 <script>
-const DATA = /*__DATA__*/null;
+const ENC = /*__ENC__*/null;
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const KEYNAME = 'grovae-links-key';
+async function keyFrom(pw){
+  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2', salt:b64(ENC.s), iterations:ENC.n, hash:'SHA-256'}, base,
+    {name:'AES-GCM', length:256}, true, ['decrypt']);
+}
+async function openWith(key){
+  const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:b64(ENC.i)}, key, b64(ENC.c));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+async function tryRemembered(){
+  try{
+    const raw = localStorage.getItem(KEYNAME); if (!raw) return false;
+    const key = await crypto.subtle.importKey('raw', b64(raw), 'AES-GCM', true, ['decrypt']);
+    start(await openWith(key)); return true;
+  } catch(e){ try{ localStorage.removeItem(KEYNAME); }catch(_){} return false; }
+}
+document.getElementById('lockform').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = document.getElementById('err'); err.textContent = 'Checking…';
+  try{
+    const key = await keyFrom(document.getElementById('pw').value);
+    const data = await openWith(key);
+    if (document.getElementById('rem').checked){
+      try{ const raw = new Uint8Array(await crypto.subtle.exportKey('raw', key));
+           localStorage.setItem(KEYNAME, btoa(String.fromCharCode(...raw))); }catch(_){}
+    }
+    start(data);
+  } catch(_){ err.textContent = 'That passcode didn\'t work.'; }
+});
+tryRemembered();
+
+function start(DATA){
+document.getElementById('lock').hidden = true;
+document.getElementById('app').hidden = false;
 const enrich = it => {
   const d = new Date(it.updated), c = new Date(it.created);
   const mon = d.toLocaleString('en-GB',{month:'long'}), monS = d.toLocaleString('en-GB',{month:'short'});
@@ -194,9 +250,12 @@ $('clients').addEventListener('click', e => { const b=e.target.closest('[data-c]
 $('types').addEventListener('click', e => { const b=e.target.closest('[data-t]'); if(!b) return; state.type=b.dataset.t; render(); });
 const nClients = new Set(items.map(i=>i.client)).size;
 $('sub').innerHTML = `${items.length} pages across ${nClients} clients · updates itself whenever anything is published`;
-$('foot').innerHTML = `Last rebuilt ${new Date(DATA.built).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})} · <kbd>/</kbd> search · <kbd>Enter</kbd> open top match · <kbd>Esc</kbd> clear`;
+$('foot').innerHTML = `Last rebuilt ${new Date(DATA.built).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})} · <kbd>/</kbd> search · <kbd>Enter</kbd> open top match · <kbd>Esc</kbd> clear · <a href="#" id="lockout" style="color:inherit">Lock this device</a>`;
+$('lockout').addEventListener('click', e => { e.preventDefault(); try{ localStorage.removeItem(KEYNAME); sessionStorage.clear(); }catch(_){} location.reload(); });
 render();
 topUp();
+setTimeout(()=>$('q').focus(),50);
+}
 </script>
 </body>
 </html>
